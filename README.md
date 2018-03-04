@@ -1,2 +1,2 @@
 # ntc-jrabbit
-ntc-jrabbit is library rabbit client java.
+ntc-jrabbit is library rabbitmq client java.
