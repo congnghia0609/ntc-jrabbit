@@ -133,7 +133,7 @@ public class TestProducer {
         try {
             String routingKey = "make_thumb";
             String amqpUrl = "amqp://username:password@localhost:5672/";
-            ProducerRB prb = new ProducerRB(routingKey);
+            ProducerRB prb = new ProducerRB(routingKey, amqpUrl);
 
             for(int i = 0; i < 100; i++){
                 System.out.println("Send Message no: " + i);
@@ -161,7 +161,7 @@ public class TestProducer {
         try {
             String routingKey = "make_thumb";
             String amqpUrl = "amqp://username:password@localhost:5672/";
-            ProducerRB prb = new ProducerRB(routingKey);
+            ProducerRB prb = new ProducerRB(routingKey, amqpUrl);
 
             Map<String, Object> mapData = new HashMap<>();
             mapData.put("pathFile", "/data/files/tmp/BI0.png");

@@ -28,7 +28,8 @@ public class ProducerUtil {
     private Logger logger = LoggerFactory.getLogger(ProducerUtil.class);
     
     public static void sendMsg(String routingKey, byte[] msgBytes){
-        ProducerMap.getInstance(routingKey).sendMessage(msgBytes);
+        String amqpUrl = "amqp://username:password@localhost:5672/";
+        ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
     }
     
 }

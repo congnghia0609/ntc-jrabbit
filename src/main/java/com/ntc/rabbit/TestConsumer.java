@@ -45,14 +45,19 @@ public class TestConsumer {
         private Logger logger = LoggerFactory.getLogger(ThumbnailWorker.class);
         
         private final static String routingKey = "make_thumb";
+        private final static String amqpUrl = "amqp://username:password@localhost:5672/";
         
         public ThumbnailWorker() {
-            super(routingKey);
+            super(routingKey, amqpUrl);
         }
         
         @Override
         public String getRoutingKey() {
             return routingKey;
+        }
+
+        public static String getAmqpUrl() {
+            return amqpUrl;
         }
 
         @Override
