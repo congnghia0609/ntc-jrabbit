@@ -18,6 +18,7 @@ package com.ntc.rabbit.producer;
 
 import com.ntc.configer.NConfig;
 import com.rabbitmq.client.AMQP.BasicProperties;
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -101,12 +102,23 @@ public class ProducerRB {
             conn = factory.newConnection();
             channel = conn.createChannel();
             
-            channel.exchangeDeclare(exchangeName, "topic", durable);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.TOPIC, durable);
             channel.queueDeclare(queueName, durable, exclusive, autoDelete, new HashMap<String, Object>());
             channel.queueBind(queueName, exchangeName, routingKey);
             
         } catch (Exception e) {
             logger.error("ProducerRB.init: " + e.getMessage(), e);
+        }
+    }
+    
+    public boolean isOpen() {
+        boolean rs = false;
+        try {
+            rs = conn.isOpen();
+        } catch (Exception e) {
+            logger.error("ProducerRB.isOpen: " + e.getMessage(), e);
+        } finally {
+            return rs;
         }
     }
     

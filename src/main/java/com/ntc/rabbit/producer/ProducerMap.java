@@ -46,11 +46,28 @@ public class ProducerMap {
 				if(instance == null) {
 					instance = new ProducerRB(routingKey);
                     mapProducers.put(routingKey, instance);
-				}
+				} else {
+                    if (!instance.isOpen()) {
+                        instance.close();
+                        instance = new ProducerRB(routingKey);
+                        mapProducers.put(routingKey, instance);
+                    }
+                }
 			} finally {
 				lock.unlock();
 			}
-		}
+		} else {
+            if (!instance.isOpen()) {
+                lock.lock();
+                try {
+                    instance.close();
+                    instance = new ProducerRB(routingKey);
+                    mapProducers.put(routingKey, instance);
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }
 		return instance;
 	}
     
@@ -66,11 +83,28 @@ public class ProducerMap {
 				if(instance == null) {
 					instance = new ProducerRB(routingKey, amqpUrl);
                     mapProducers.put(routingKey, instance);
-				}
+				} else {
+                    if (!instance.isOpen()) {
+                        instance.close();
+                        instance = new ProducerRB(routingKey, amqpUrl);
+                        mapProducers.put(routingKey, instance);
+                    }
+                }
 			} finally {
 				lock.unlock();
 			}
-		}
+		} else {
+            if (!instance.isOpen()) {
+                lock.lock();
+                try {
+                    instance.close();
+                    instance = new ProducerRB(routingKey, amqpUrl);
+                    mapProducers.put(routingKey, instance);
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }
 		return instance;
 	}
     

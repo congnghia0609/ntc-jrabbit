@@ -18,6 +18,7 @@ package com.ntc.rabbit.consumer;
 
 import com.ntc.configer.NConfig;
 import com.rabbitmq.client.AMQP;
+import com.rabbitmq.client.BuiltinExchangeType;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -95,7 +96,7 @@ public class ConsumerRBConnect {
             conn = factory.newConnection();
             channel = conn.createChannel();
             
-            channel.exchangeDeclare(exchangeName, "topic", durable);
+            channel.exchangeDeclare(exchangeName, BuiltinExchangeType.TOPIC, durable);
             channel.queueDeclare(queueName, durable, exclusive, autoDelete, new HashMap<String, Object>());
             channel.queueBind(queueName, exchangeName, routingKey);
             
