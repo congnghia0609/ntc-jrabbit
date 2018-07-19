@@ -98,6 +98,7 @@ public class ProducerRB {
             niop.setReadByteBufferSize(bufferSize);
             niop.setWriteByteBufferSize(bufferSize);
             factory.setNioParams(niop);
+            factory.setAutomaticRecoveryEnabled(true);
             
             conn = factory.newConnection();
             channel = conn.createChannel();
@@ -116,7 +117,7 @@ public class ProducerRB {
         try {
             rs = conn.isOpen();
         } catch (Exception e) {
-            logger.error("ProducerRB.isOpen: " + e.getMessage(), e);
+            logger.error("ProducerRB.isOpen: " + e);
         } finally {
             return rs;
         }
@@ -138,11 +139,24 @@ public class ProducerRB {
         }
     }
     
-    public void sendMessage(byte[] msgBytes){
+//    public void sendMessage(byte[] msgBytes){
+//        try {
+//            channel.basicPublish(exchangeName, routingKey, mandatory, prop, msgBytes);
+//        } catch (Exception e) {
+//            logger.error("ProducerRB.sendMessage: " + e.getMessage(), e);
+//        }
+//    }
+    
+    public int sendMessage(byte[] msgBytes){
+        int err = -1;
         try {
             channel.basicPublish(exchangeName, routingKey, mandatory, prop, msgBytes);
+            err = 0;
         } catch (Exception e) {
-            logger.error("ProducerRB.sendMessage: " + e.getMessage(), e);
+            err = -1;
+            logger.error("ProducerRB.sendMessage: " + e);
+        } finally {
+            return err;
         }
     }
 }

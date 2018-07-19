@@ -92,6 +92,7 @@ public class ConsumerRBConnect {
             niop.setReadByteBufferSize(bufferSize);
             niop.setWriteByteBufferSize(bufferSize);
             factory.setNioParams(niop);
+            factory.setAutomaticRecoveryEnabled(true);
             
             conn = factory.newConnection();
             channel = conn.createChannel();

@@ -72,7 +72,7 @@ public abstract class ConsumerRBProcess implements Runnable {
                     // (process the message components here ...)
                     execute(body);
 
-                    //channel.basicAck(deliveryTag, false);
+                    //cconn.getChannel().basicAck(deliveryTag, false);
                 }
             };
             // loop that waits for message

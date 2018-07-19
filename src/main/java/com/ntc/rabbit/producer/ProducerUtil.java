@@ -16,6 +16,7 @@
 
 package com.ntc.rabbit.producer;
 
+import com.ntc.configer.NConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,11 +26,26 @@ import org.slf4j.LoggerFactory;
  * @since May 3, 2017
  */
 public class ProducerUtil {
-    private Logger logger = LoggerFactory.getLogger(ProducerUtil.class);
+    private static Logger logger = LoggerFactory.getLogger(ProducerUtil.class);
+    private static final int MAX_RETRY = NConfig.getConfig().getInt("producer.maxretry", 3);
     
-    public static void sendMsg(String routingKey, byte[] msgBytes){
-        String amqpUrl = "amqp://username:password@localhost:5672/";
-        ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
+//    public static void sendMsg(String routingKey, byte[] msgBytes){
+//        String amqpUrl = "amqp://username:password@localhost:5672/";
+//        ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
+//    }
+    
+    public static int sendMsg(String routingKey, byte[] msgBytes){
+        int err = -1;
+        try {
+            String amqpUrl = "amqp://username:password@localhost:5672/";
+            for (int i = 0; err < 0 && i < MAX_RETRY; i++) {
+                err = ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
+            }
+        } catch (Exception e) {
+            err = -1;
+            logger.error("ProducerUtil.sendMsg: " +  e);
+        } finally {
+            return err;
+        }
     }
-    
 }
