@@ -46,6 +46,7 @@ public class ProducerRB {
     private boolean autoDelete = false; // True: Xóa Queue khi không còn sử dụng (server will delete Queue when no longer in use)
     private boolean mandatory = true; // True: Bắt buộc.
     private int bufferSize = 5 * 1024 * 1024; // 5 MB.
+    private final String expiration = NConfig.getConfig().getString("rbproducer.expiration", "604800000"); // expiration default 7 days.
     
     private BasicProperties prop;
     private ConnectionFactory factory;
@@ -84,7 +85,7 @@ public class ProducerRB {
                         .contentType("application/json")
                         .contentEncoding("utf-8")
                         .priority(1)
-                        .expiration("60000")
+                        .expiration(expiration)
                         .build();
             factory = new ConnectionFactory();
             factory.setUri(amqpUrl);
