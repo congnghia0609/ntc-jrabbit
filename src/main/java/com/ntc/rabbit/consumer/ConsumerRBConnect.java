@@ -102,7 +102,18 @@ public class ConsumerRBConnect {
             channel.queueBind(queueName, exchangeName, routingKey);
             
         } catch (Exception e) {
-            logger.error("ProducerRB.init: " + e.getMessage(), e);
+            logger.error("ConsumerRBConnect.init: " + e.getMessage(), e);
+        }
+    }
+    
+    public boolean isOpen() {
+        boolean rs = false;
+        try {
+            rs = conn.isOpen();
+        } catch (Exception e) {
+            logger.error("ConsumerRBConnect.isOpen: " + e.getMessage(), e);
+        } finally {
+            return rs;
         }
     }
 

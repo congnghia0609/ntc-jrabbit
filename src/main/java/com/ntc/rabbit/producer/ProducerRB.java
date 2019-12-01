@@ -118,7 +118,7 @@ public class ProducerRB {
         try {
             rs = conn.isOpen();
         } catch (Exception e) {
-            logger.error("ProducerRB.isOpen: " + e);
+            logger.error("ProducerRB.isOpen: " + e.getMessage(), e);
         } finally {
             return rs;
         }

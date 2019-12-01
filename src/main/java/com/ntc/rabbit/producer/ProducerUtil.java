@@ -30,16 +30,15 @@ public class ProducerUtil {
     private static final int MAX_RETRY = NConfig.getConfig().getInt("producer.maxretry", 3);
     
 //    public static void sendMsg(String routingKey, byte[] msgBytes){
-//        String amqpUrl = "amqp://username:password@localhost:5672/";
-//        ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
+//        //String amqpUrl = "amqp://username:password@localhost:5672/";
+//        ProducerMap.getInstance(routingKey).sendMessage(msgBytes);
 //    }
     
     public static int sendMsg(String routingKey, byte[] msgBytes){
         int err = -1;
         try {
-            String amqpUrl = "amqp://username:password@localhost:5672/";
             for (int i = 0; err < 0 && i < MAX_RETRY; i++) {
-                err = ProducerMap.getInstance(routingKey, amqpUrl).sendMessage(msgBytes);
+                err = ProducerMap.getInstance(routingKey).sendMessage(msgBytes);
             }
         } catch (Exception e) {
             err = -1;
