@@ -15,7 +15,7 @@ ntc-jrabbit is a module rabbitmq java client.
 ```java
 String routingKey = "test_queue";
 String msg = "this is message";
-byte[] msgb = JsonUtils.Instance.toByteJson(mapData);
+byte[] msgb = JsonUtils.Instance.toByteJson(msg);
 ProducerUtil.sendMsg(routingKey, msgb);
 ```
 
